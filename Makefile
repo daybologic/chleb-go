@@ -1,12 +1,12 @@
 #!/usr/bin/env make -f
 
-all: hello
+all: bible-votd
 
-hello:
+bible-votd:
 	go build
 
 run : all
-	./hello
+	./bible-votd
 
 clean:
 	go clean

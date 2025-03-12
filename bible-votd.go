@@ -27,7 +27,8 @@ import (
 	"log"
 	"os"
 
-	"golang.org/x/example/hello/reverse"
+	"golang.org/x/example/bible-votd/reverse"
+	"golang.org/x/example/bible-votd/urlbuilder"
 )
 
 func usage() {
@@ -69,4 +70,7 @@ func main() {
 		return
 	}
 	fmt.Printf("%s, %s!\n", *greeting, name)
+
+	query := urlbuilder.Build().String()
+	fmt.Printf("URL '%s'\n", query);
 }
