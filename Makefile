@@ -4,6 +4,7 @@ all: bible-votd
 
 bible-votd:
 	go build
+	upx bible-votd
 
 run : all
 	./bible-votd
