@@ -27,6 +27,7 @@ import (
 	"log"
 	"os"
 
+	"golang.org/x/example/bible-votd/remote"
 	"golang.org/x/example/bible-votd/reverse"
 	"golang.org/x/example/bible-votd/urlbuilder"
 )
@@ -41,6 +42,15 @@ var (
 	greeting    = flag.String("g", "Hello", "Greet with `greeting`")
 	reverseFlag = flag.Bool("r", false, "Greet in reverse")
 )
+
+func fetch(respond chan<- string, query string) {
+	response, ok := remote.Fetch(query)
+	if !ok {
+		os.Exit(1)
+	}
+
+	respond <- response
+}
 
 func main() {
 	// Configure logging for a command-line program.
@@ -73,4 +83,13 @@ func main() {
 
 	query := urlbuilder.Build().String()
 	fmt.Printf("URL '%s'\n", query);
+
+	respond := make(chan string)
+
+	go fetch(respond, query)
+
+	queryResp := <-respond
+
+	fmt.Printf("Sent query:\t\t %s\n", query)
+	fmt.Printf("Got Response:\t\t %s\n", queryResp)
 }
