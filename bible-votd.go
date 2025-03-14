@@ -70,7 +70,7 @@ func main() {
 	//	hostname = args[0]
 	//}
 	if *hostname == "" {
-		log.Fatalf("invalid hostname %q", hostname)
+		log.Fatalf("invalid hostname: %q", *hostname)
 	}
 
 	// Run actual logic.
