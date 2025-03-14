@@ -28,7 +28,6 @@ import (
 	"os"
 
 	"golang.org/x/example/bible-votd/remote"
-	"golang.org/x/example/bible-votd/reverse"
 	"golang.org/x/example/bible-votd/urlbuilder"
 )
 
@@ -75,10 +74,10 @@ func main() {
 	}
 
 	// Run actual logic.
-	if *reverseFlag {
-		fmt.Printf("%s, %s!\n", reverse.String(*greeting), reverse.String(name))
-		return
-	}
+	//if *reverseFlag {
+	//	fmt.Printf("%s, %s!\n", reverse.String(*greeting), reverse.String(name))
+	//	return
+	//}
 	fmt.Printf("%s, %s!\n", *greeting, name)
 
 	query := urlbuilder.Build().String()

@@ -6,10 +6,10 @@ bible-votd:
 	go build
 	upx bible-votd
 
-run : all
+run: all
 	./bible-votd
 
 clean:
 	go clean
 
-.PHONY: all run clean
+.PHONY: all run clean bible-votd
