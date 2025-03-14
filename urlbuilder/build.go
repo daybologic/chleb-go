@@ -5,14 +5,19 @@ import (
 	"net/url"
 )
 
-func Build() *url.URL {
+func Build(host string) *url.URL {
 	u, err := url.Parse("https://example.org")
 	if err != nil {
 		log.Fatal(err)
 	}
 
 	u.Scheme = "https"
-	u.Host = "chleb-api.daybologic.co.uk"
+
+	//if host == "" {
+	//	host = "chleb-api.daybologic.co.uk"
+	//}
+	u.Host = host
+
 	u.Path = "2/votd"
 
 	q := u.Query()

@@ -38,8 +38,8 @@ func usage() {
 }
 
 var (
-	greeting    = flag.String("g", "Hello", "Greet with `greeting`")
-	reverseFlag = flag.Bool("r", false, "Greet in reverse")
+	hostname = flag.String("h", "chleb-api.daybologic.co.uk", "The hostname for the remote Chleb Bible Search server")
+	htmlFlag = flag.Bool("t", false, "Use text/html")
 )
 
 func fetch(respond chan<- string, query string) {
@@ -54,23 +54,23 @@ func fetch(respond chan<- string, query string) {
 func main() {
 	// Configure logging for a command-line program.
 	log.SetFlags(0)
-	log.SetPrefix("hello: ")
+	log.SetPrefix("bible-votd: ")
 
 	// Parse flags.
 	flag.Usage = usage
 	flag.Parse()
 
 	// Parse and validate arguments.
-	name := "world"
+	//hostname := "chleb-api.daybologic.co.uk"
 	args := flag.Args()
 	if len(args) >= 2 {
 		usage()
 	}
-	if len(args) >= 1 {
-		name = args[0]
-	}
-	if name == "" { // hello '' is an error
-		log.Fatalf("invalid name %q", name)
+	//if len(args) >= 1 {
+	//	hostname = args[0]
+	//}
+	if *hostname == "" {
+		log.Fatalf("invalid hostname %q", hostname)
 	}
 
 	// Run actual logic.
@@ -78,9 +78,9 @@ func main() {
 	//	fmt.Printf("%s, %s!\n", reverse.String(*greeting), reverse.String(name))
 	//	return
 	//}
-	fmt.Printf("%s, %s!\n", *greeting, name)
+	//fmt.Printf("%s, %s!\n", *greeting, name)
 
-	query := urlbuilder.Build().String()
+	query := urlbuilder.Build(*hostname).String()
 	fmt.Printf("URL '%s'\n", query);
 
 	respond := make(chan string)
