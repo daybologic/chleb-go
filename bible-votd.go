@@ -61,24 +61,14 @@ func main() {
 	flag.Parse()
 
 	// Parse and validate arguments.
-	//hostname := "chleb-api.daybologic.co.uk"
 	args := flag.Args()
 	if len(args) >= 2 {
 		usage()
 	}
-	//if len(args) >= 1 {
-	//	hostname = args[0]
-	//}
+
 	if *hostname == "" {
 		log.Fatalf("invalid hostname: %q", *hostname)
 	}
-
-	// Run actual logic.
-	//if *reverseFlag {
-	//	fmt.Printf("%s, %s!\n", reverse.String(*greeting), reverse.String(name))
-	//	return
-	//}
-	//fmt.Printf("%s, %s!\n", *greeting, name)
 
 	query := urlbuilder.Build(*hostname).String()
 	fmt.Printf("URL '%s'\n", query);

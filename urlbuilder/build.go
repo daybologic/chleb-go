@@ -12,12 +12,7 @@ func Build(host string) *url.URL {
 	}
 
 	u.Scheme = "https"
-
-	//if host == "" {
-	//	host = "chleb-api.daybologic.co.uk"
-	//}
 	u.Host = host
-
 	u.Path = "2/votd"
 
 	q := u.Query()
