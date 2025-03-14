@@ -39,7 +39,9 @@ func usage() {
 
 var (
 	hostname = flag.String("H", "chleb-api.daybologic.co.uk", "The hostname for the remote Chleb Bible Search server")
-	htmlFlag = flag.Bool("t", false, "Use text/html")
+	port = flag.Int("p", 0, "connect to port, default depends whether -k is specified");
+	insecureFlag = flag.Bool("k", false, "connect via legacy HTTP (insecure)");
+	htmlFlag = flag.Bool("h", false, "Use text/html")
 )
 
 func fetch(respond chan<- string, query string) {
@@ -70,7 +72,7 @@ func main() {
 		log.Fatalf("invalid hostname: %q", *hostname)
 	}
 
-	query := urlbuilder.Build(*hostname).String()
+	query := urlbuilder.Build(*insecureFlag, *hostname, *port).String()
 	fmt.Printf("URL '%s'\n", query);
 
 	respond := make(chan string)
