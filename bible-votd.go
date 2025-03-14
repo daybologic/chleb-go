@@ -38,7 +38,7 @@ func usage() {
 }
 
 var (
-	hostname = flag.String("h", "chleb-api.daybologic.co.uk", "The hostname for the remote Chleb Bible Search server")
+	hostname = flag.String("H", "chleb-api.daybologic.co.uk", "The hostname for the remote Chleb Bible Search server")
 	htmlFlag = flag.Bool("t", false, "Use text/html")
 )
 
