@@ -45,7 +45,7 @@ var (
 )
 
 func fetch(respond chan<- string, query string) {
-	response, ok := remote.Fetch(query)
+	response, ok := remote.Fetch(query, *htmlFlag)
 	if !ok {
 		os.Exit(1)
 	}
