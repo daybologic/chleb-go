@@ -53,6 +53,7 @@ var (
 	port = flag.Int("p", 0, "connect to port, default depends whether -k is specified");
 	insecureFlag = flag.Bool("k", false, "connect via legacy HTTP (insecure)");
 	htmlFlag = flag.Bool("h", true, "Use text/html")
+	translations = flag.String("t", "asv", "The translation(s) required (asv, kjv)")
 )
 
 func fetch(respond chan<- string, query string) {
@@ -83,7 +84,7 @@ func main() {
 		log.Fatalf("invalid hostname: %q", *hostname)
 	}
 
-	query := urlbuilder.Build(*insecureFlag, *hostname, *port).String()
+	query := urlbuilder.Build(*insecureFlag, *hostname, *port, *translations).String()
 	fmt.Printf("URL '%s'\n", query);
 
 	respond := make(chan string)

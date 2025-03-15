@@ -39,7 +39,7 @@ import (
 	"strconv"
 )
 
-func Build(insecure bool, host string, port int) *url.URL {
+func Build(insecure bool, host string, port int, translations string) *url.URL {
 	u, err := url.Parse("https://example.org")
 	if err != nil {
 		log.Fatal(err)
@@ -60,7 +60,7 @@ func Build(insecure bool, host string, port int) *url.URL {
 	}
 
 	q := u.Query()
-	q.Set("translations", "asv")
+	q.Set("translations", translations)
 	u.RawQuery = q.Encode()
 
 	return u
