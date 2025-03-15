@@ -1,0 +1,20 @@
+Source: chleb-bible-votd
+Section: games
+Priority: optional
+Maintainer: Rev. Duncan Ross Palmer <2e0eol@gmail.com>
+Build-Depends: debhelper (>= 13),
+ golang-go,
+ upx-ucl,
+Standards-Version: 4.6.2
+Homepage: https://git.sr.ht/~m6kvm/chleb-go
+
+Package: chleb-bible-votd
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends},
+Replaces: libreligion-bible-verses-perl
+Description: Chleb Bible Search - Bible Query Service
+ For further information see:
+ .
+ https://sr.ht/~m6kvm/Chleb/
+ https://github.com/daybologic/chleb-bible-search
+ https://bitbucket.org/2E0EOL/chleb-bible-search
