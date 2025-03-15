@@ -92,5 +92,5 @@ func main() {
 
 	queryResp := <-respond
 
-	fmt.Printf("%s\n", queryResp)
+	fmt.Printf("%s", queryResp)
 }
