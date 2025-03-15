@@ -8,7 +8,7 @@ bible-votd:
 
 bible-votd.exe:
 	env GOOS=windows GOARCH=amd64 go build
-	upx -9 $@
+	upx -q -9 $@
 
 run: all
 	./bible-votd
