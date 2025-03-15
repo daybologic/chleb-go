@@ -52,7 +52,7 @@ var (
 	hostname = flag.String("H", "chleb-api.daybologic.co.uk", "The hostname for the remote Chleb Bible Search server")
 	port = flag.Int("p", 0, "connect to port, default depends whether -k is specified");
 	insecureFlag = flag.Bool("k", false, "connect via legacy HTTP (insecure)");
-	htmlFlag = flag.Bool("h", false, "Use text/html")
+	htmlFlag = flag.Bool("h", true, "Use text/html")
 )
 
 func fetch(respond chan<- string, query string) {
