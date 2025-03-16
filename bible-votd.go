@@ -54,6 +54,7 @@ var (
 	insecureFlag = flag.Bool("k", false, "connect via legacy HTTP (insecure)");
 	htmlFlag = flag.Bool("h", true, "Use text/html")
 	translations = flag.String("t", "asv", "The translation(s) required (asv, kjv)")
+	debugFlag = flag.Bool("d", false, "Debug (developers, or if requested by developers)")
 )
 
 func fetch(respond chan<- string, query string) {
@@ -85,7 +86,9 @@ func main() {
 	}
 
 	query := urlbuilder.Build(*insecureFlag, *hostname, *port, *translations).String()
-	fmt.Printf("URL '%s'\n", query);
+	if *debugFlag {
+		fmt.Printf("URL '%s'\n", query)
+	}
 
 	respond := make(chan string)
 
@@ -93,6 +96,10 @@ func main() {
 
 	queryResp := <-respond
 
-	fmt.Printf("Sent query:\t\t %s\n", query)
-	fmt.Printf("Got Response:\t\t %s\n", queryResp)
+	if (*debugFlag) {
+		fmt.Printf("Sent query:\t\t %s\n", query)
+		fmt.Printf("Got Response:\t\t %s", queryResp)
+	} else {
+		fmt.Printf("%s", queryResp)
+	}
 }
