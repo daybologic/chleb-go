@@ -85,6 +85,7 @@ func main() {
 	}
 
 	query := urlbuilder.Build(*insecureFlag, *hostname, *port, *translations).String()
+	fmt.Printf("URL '%s'\n", query);
 
 	respond := make(chan string)
 
@@ -92,5 +93,6 @@ func main() {
 
 	queryResp := <-respond
 
-	fmt.Printf("%s", queryResp)
+	fmt.Printf("Sent query:\t\t %s\n", query)
+	fmt.Printf("Got Response:\t\t %s\n", queryResp)
 }
