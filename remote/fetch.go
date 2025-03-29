@@ -46,6 +46,7 @@ type JSONResponseAttributes struct {
 	Chapter json.Number `json:"chapter"`
 	Ordinal json.Number `json:"ordinal"`
 	Text string `json:"text"`
+	Translation string `json:"translation"`
 }
 
 type JSONResponseData struct {
@@ -104,14 +105,31 @@ func Fetch(query string, htmlFlag bool) (response string, ok bool) {
 		if err != nil {
 			log.Fatalf("Unable to marshal JSON due to %s", err)
 		}
-		for _,element := range jsonResponse.Data {
-			var attribs JSONResponseAttributes = element.Attributes
+		if len(jsonResponse.Data) == 1 {
+			var attribs JSONResponseAttributes = jsonResponse.Data[0].Attributes
 			cookedBody.WriteString(fmt.Sprintf(
-				"%s %s:%s %s\n",
+				"%s %s:%s %s [%s]\n",
 				attribs.Book,
 				attribs.Chapter,
 				attribs.Ordinal,
 				attribs.Text,
+				attribs.Translation,
+			))
+		} else {
+			for _,element := range jsonResponse.Data {
+				var attribs JSONResponseAttributes = element.Attributes
+				cookedBody.WriteString(fmt.Sprintf(
+					"%s %s:%s %s\n",
+					attribs.Book,
+					attribs.Chapter,
+					attribs.Ordinal,
+					attribs.Text,
+				))
+			}
+
+			cookedBody.WriteString(fmt.Sprintf(
+				"\n\t(%s)\n",
+				jsonResponse.Data[0].Attributes.Translation,
 			))
 		}
 	}
