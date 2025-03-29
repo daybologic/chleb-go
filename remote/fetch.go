@@ -72,7 +72,7 @@ func Fetch(query string, htmlFlag bool) (response string, ok bool) {
 		return "", false
 	}
 
-	req.Header.Set("User-Agent", "chleb-go/0.1.0")
+	req.Header.Set("User-Agent", "chleb-go/0.1.1")
 
 	if (htmlFlag) {
 		req.Header.Set("Accept", "text/html")

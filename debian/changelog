@@ -1,3 +1,9 @@
+chleb-bible-votd (0.1.1) stable; urgency=medium
+
+  * Fixed JSON handling, which is now the default
+
+ -- Rev. Duncan Ross Palmer <2e0eol@gmail.com>  Sat, 29 Mar 2025 09:05:59 +0000
+
 chleb-bible-votd (0.1.0) stable; urgency=low
 
   * First initial Beta release for feedback
