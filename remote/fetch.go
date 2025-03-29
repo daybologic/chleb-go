@@ -38,9 +38,13 @@ import (
 	"log"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type JSONResponseAttributes struct {
+	Book string `json:"book"`
+	Chapter string `json:"chapter,string"`
+	Ordinal int `json:"ordinal,int"`
 	Text string `json:"text"`
 }
 
@@ -55,7 +59,7 @@ type JSONResponseLinks struct {
 }
 
 type JSONResponse struct {
-	Data [1]JSONResponseData `json:"data"`
+	Data []JSONResponseData `json:"data"`
 	Links JSONResponseLinks `json:"links"`
 }
 
@@ -91,17 +95,26 @@ func Fetch(query string, htmlFlag bool) (response string, ok bool) {
 		return "", false
 	}
 
-	var cookedBody string
+	var cookedBody strings.Builder
 	if (htmlFlag) {
-		cookedBody = fmt.Sprintf("%s", rawBody)
+		cookedBody.WriteString(fmt.Sprintf("%s", rawBody))
 	} else {
 		var jsonResponse JSONResponse
 		err = json.Unmarshal([]byte(rawBody), &jsonResponse)
 		if err != nil {
 			log.Fatalf("Unable to marshal JSON due to %s", err)
 		}
-		cookedBody = fmt.Sprintf("%s", jsonResponse.Data[0].Attributes.Text)
+		for _,element := range jsonResponse.Data {
+			var attribs JSONResponseAttributes = element.Attributes
+			cookedBody.WriteString(fmt.Sprintf(
+				"%s %s:%s %s\n",
+				attribs.Book,
+				attribs.Chapter,
+				attribs.Ordinal,
+				attribs.Text,
+			))
+		}
 	}
 
-	return cookedBody, true
+	return cookedBody.String(), true
 }
