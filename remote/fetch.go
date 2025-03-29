@@ -43,8 +43,8 @@ import (
 
 type JSONResponseAttributes struct {
 	Book string `json:"book"`
-	Chapter string `json:"chapter,string"`
-	Ordinal int `json:"ordinal,int"`
+	Chapter json.Number `json:"chapter"`
+	Ordinal json.Number `json:"ordinal"`
 	Text string `json:"text"`
 }
 
