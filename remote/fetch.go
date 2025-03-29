@@ -38,25 +38,30 @@ import (
 	"log"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 type JSONResponseAttributes struct {
-	text string `json:"text"`
+	Book string `json:"book"`
+	Chapter json.Number `json:"chapter"`
+	Ordinal json.Number `json:"ordinal"`
+	Text string `json:"text"`
+	Translation string `json:"translation"`
 }
 
 type JSONResponseData struct {
-	attributes JSONResponseAttributes `json:"attributes"`
+	Attributes JSONResponseAttributes `json:"attributes"`
 }
 
 type JSONResponseLinks struct {
-	prev string `json:"prev"`
-	self string `json:"self"`
-	next string `json:"next"`
+	Prev string `json:"prev"`
+	Self string `json:"self"`
+	Next string `json:"next"`
 }
 
 type JSONResponse struct {
-	data [1]JSONResponseData `json:"data"`
-	links JSONResponseLinks `json:"links"`
+	Data []JSONResponseData `json:"data"`
+	Links JSONResponseLinks `json:"links"`
 }
 
 func Fetch(query string, htmlFlag bool) (response string, ok bool) {
@@ -91,19 +96,43 @@ func Fetch(query string, htmlFlag bool) (response string, ok bool) {
 		return "", false
 	}
 
-	var cookedBody string
+	var cookedBody strings.Builder
 	if (htmlFlag) {
-		cookedBody = fmt.Sprintf("%s", rawBody)
+		cookedBody.WriteString(fmt.Sprintf("%s", rawBody))
 	} else {
 		var jsonResponse JSONResponse
 		err = json.Unmarshal([]byte(rawBody), &jsonResponse)
 		if err != nil {
 			log.Fatalf("Unable to marshal JSON due to %s", err)
 		}
-		//cookedBody = fmt.Sprintf("%s", jsonResponse.data[0].attributes.text)
-		cookedBody = fmt.Sprintf("%s", jsonResponse)
-		cookedBody = jsonResponse.links.self
+		if len(jsonResponse.Data) == 1 {
+			var attribs JSONResponseAttributes = jsonResponse.Data[0].Attributes
+			cookedBody.WriteString(fmt.Sprintf(
+				"%s %s:%s %s [%s]\n",
+				attribs.Book,
+				attribs.Chapter,
+				attribs.Ordinal,
+				attribs.Text,
+				attribs.Translation,
+			))
+		} else {
+			for _,element := range jsonResponse.Data {
+				var attribs JSONResponseAttributes = element.Attributes
+				cookedBody.WriteString(fmt.Sprintf(
+					"%s %s:%s %s\n",
+					attribs.Book,
+					attribs.Chapter,
+					attribs.Ordinal,
+					attribs.Text,
+				))
+			}
+
+			cookedBody.WriteString(fmt.Sprintf(
+				"\n\t(%s)\n",
+				jsonResponse.Data[0].Attributes.Translation,
+			))
+		}
 	}
 
-	return cookedBody, true
+	return cookedBody.String(), true
 }
